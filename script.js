@@ -104,14 +104,18 @@ function ScreenController() {
     playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
 
     // Render thew visual board 
+    let cellNum = 1
     board.forEach((row,rowIndex) => { 
       row.forEach((cell, colIndex) => {
+        
         const cellButton = document.createElement("button");
         cellButton.classList.add("cell");
         cellButton.dataset.row = rowIndex; 
         cellButton.dataset.column = colIndex;
+        cellButton.setAttribute('id',`${cellNum}`);
         cellButton.textContent = cell.getValue();
         boardDiv.appendChild(cellButton);
+        cellNum++;
       })
     })
   }
