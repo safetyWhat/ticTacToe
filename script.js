@@ -50,11 +50,13 @@ function GameController (
   const players = [
     {
       name: playerOneName,
-      token: 1
+      token: 1,
+      score: []
     },
     {
       name: playerTwoName,
-      token: 2
+      token: 2,
+      score: []
     }
   ];
 
@@ -70,11 +72,38 @@ function GameController (
     console.log(`${getActivePlayer().name}'s turn.`);
   };
 
-  const playRound = (row, column) => {
+  const takeScore = (square) => {
+    const score = activePlayer.score
+    const winNum = [
+      ['1', '2', '3'],
+      ['4', '5', '6'],
+      ['7', '8', '9'],
+      ['1', '4', '7'],
+      ['2', '5', '8'],
+      ['3', '6', '9'],
+      ['1', '5', '9'],
+      ['3', '5', '7'] 
+    ]
+    score.push(square);
+    
+    for(let i = 0; i < winNum.length; i++) {
+      let winResult = winNum[i].every(num => score.includes(num));
+      console.log(winResult);
+      if (winResult === true) {
+            console.log(`${activePlayer.name} wins!`)
+            return
+          }
+    }
+    
+    console.log(activePlayer.score);
+  }
+
+  const playRound = (row, column, square) => {
     console.log(
       `Placing ${getActivePlayer().name}'s token into row ${row}, column ${column}...`
     );
     board.setToken(row, column, getActivePlayer().token);
+  takeScore(square);  
   switchPlayerTurn();
   printNewRound();
   };
@@ -104,10 +133,9 @@ function ScreenController() {
     playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
 
     // Render thew visual board 
-    let cellNum = 1
+    let cellNum = 1 //This to provide individual number for id on each button
     board.forEach((row,rowIndex) => { 
       row.forEach((cell, colIndex) => {
-        
         const cellButton = document.createElement("button");
         cellButton.classList.add("cell");
         cellButton.dataset.row = rowIndex; 
@@ -123,9 +151,10 @@ function ScreenController() {
   function clickHandlerBoard(e) {
     const selectedRow = e.target.dataset.row
     const selectedColumn = e.target.dataset.column;
+    const selectedSquare = e.target.id;
     if (!selectedColumn) return;
-    
-    game.playRound(selectedRow, selectedColumn);
+    //console.log(selectedSquare)
+    game.playRound(selectedRow, selectedColumn, selectedSquare);
     updateScreen();
   }
   boardDiv.addEventListener("click", clickHandlerBoard);

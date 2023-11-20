@@ -27,3 +27,5 @@ For/If Loop? It would have to loop through all possible combinations of a win af
 Player arrays? As each player takes their turn, their "cells" are logged into an array. After each turn the player arrays get searched
 for winning combinations. If one is found that player gets recognized as the winner. Actually only have to search the array of the player that just took their turn.
 Place function within playRound to search player array for winning combination.
+Currently able to create ID for each button in DOM creation of board. Should be able to use that to log which squares are claimed by 
+players. Once a player has a winning combination, they are declared.
