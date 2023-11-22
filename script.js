@@ -61,6 +61,7 @@ function GameController (
   ];
 
   let activePlayer = players[0];
+  let winner = '';
 
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -88,15 +89,20 @@ function GameController (
     
     for(let i = 0; i < winNum.length; i++) {
       let winResult = winNum[i].every(num => score.includes(num));
-      console.log(winResult);
+      //console.log(winResult);
       if (winResult === true) {
-            console.log(`${activePlayer.name} wins!`)
-            return
-          }
+        //console.log(`${activePlayer.name} wins!`);
+        winner = `${activePlayer.name} wins!`;
+        return;
+      }
+      if (score.length > 4) {
+        //console.log("Tie game");
+        winner = 'Tie game!'
+        return;
+      }
     }
-    
-    console.log(activePlayer.score);
   }
+  const getWinner = () => winner;
 
   const playRound = (row, column, square) => {
     console.log(
@@ -114,6 +120,7 @@ function GameController (
   return {
     playRound,
     getActivePlayer, 
+    getWinner,
     getBoard: board.getBoard
   };
 }
@@ -126,11 +133,15 @@ function ScreenController() {
   const updateScreen = () => {
     boardDiv.textContent = "";// clear the board
 
-   
     const board = game.getBoard(); // get the newest version of the board and player turn
     const activePlayer = game.getActivePlayer();
-
-    playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
+    const winner = game.getWinner();
+    
+    if(winner === '') {
+      playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+      } else {
+        playerTurnDiv.textContent = winner;
+      }
 
     // Render thew visual board 
     let cellNum = 1 //This to provide individual number for id on each button
