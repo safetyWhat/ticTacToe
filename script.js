@@ -12,12 +12,7 @@ function Gameboard () {
   const getBoard = () => board;
 
   const setToken = (row, column, player) => {
-    if (board[row][column] !== 1||2) {
-      board[row][column].addToken(player);
-    } else {
-      alert('Space already taken.')
-      return;
-    }
+    board[row][column].addToken(player);
   };
   const printBoard = () => {
     const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
@@ -28,13 +23,10 @@ function Gameboard () {
 
 function Cell() {
   let value = 0;
-
   const addToken = (player) => {
     value = player;
   };
-
   const getValue = () => value;
-
   return {
     addToken,
     getValue
@@ -73,9 +65,9 @@ function GameController (
     console.log(`${getActivePlayer().name}'s turn.`);
   };
 
-  const takeScore = (square) => {
+  const takeScore = (square) => { //Adds number to player array to represent selected square
     const score = activePlayer.score
-    const winNum = [
+    const winNum = [ //Winning combinations of squares
       ['1', '2', '3'],
       ['4', '5', '6'],
       ['7', '8', '9'],
@@ -87,16 +79,13 @@ function GameController (
     ]
     score.push(square);
     
-    for(let i = 0; i < winNum.length; i++) {
+    for(let i = 0; i < winNum.length; i++) { //Searches player score arrays for winning combinations or 5 numbers to give a tie
       let winResult = winNum[i].every(num => score.includes(num));
-      //console.log(winResult);
       if (winResult === true) {
-        //console.log(`${activePlayer.name} wins!`);
         winner = `${activePlayer.name} wins!`;
         return;
       }
       if (score.length > 4) {
-        //console.log("Tie game");
         winner = 'Tie game!'
         return;
       }
@@ -109,7 +98,10 @@ function GameController (
       `Placing ${getActivePlayer().name}'s token into row ${row}, column ${column}...`
     );
     board.setToken(row, column, getActivePlayer().token);
-  takeScore(square);  
+  takeScore(square);
+  if (winner !== '') { //If game has ended, stops GameController
+    return;
+  }
   switchPlayerTurn();
   printNewRound();
   };
@@ -143,7 +135,7 @@ function ScreenController() {
         playerTurnDiv.textContent = winner;
       }
 
-    // Render thew visual board 
+    // Render the visual board 
     let cellNum = 1 //This to provide individual number for id on each button
     board.forEach((row,rowIndex) => { 
       row.forEach((cell, colIndex) => {
@@ -163,7 +155,10 @@ function ScreenController() {
     const selectedRow = e.target.dataset.row
     const selectedColumn = e.target.dataset.column;
     const selectedSquare = e.target.id;
+    const selectedValue = e.target.textContent;
     if (!selectedColumn) return;
+    console.log(selectedValue);
+    if (selectedValue !== '0') return;
     //console.log(selectedSquare)
     game.playRound(selectedRow, selectedColumn, selectedSquare);
     updateScreen();

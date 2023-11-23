@@ -29,3 +29,16 @@ for winning combinations. If one is found that player gets recognized as the win
 Place function within playRound to search player array for winning combination.
 Currently able to create ID for each button in DOM creation of board. Should be able to use that to log which squares are claimed by 
 players. Once a player has a winning combination, they are declared.
+Created array of winning arrays. Used a loop to check players claimed squares against winning arrays with an if statement to determine when a player has a winning set of parameters.
+
+-----------
+Now to determine a "cat's" game.
+Another if statement? Once all squares are claimed.
+*Used an if statement to see if on player had 5 squares without a winning scenario.
+
+-----------
+Stop play on win or tie. I was able to use an if statement to stop cycling the playRound function, but the board will still take button presses.
+
+-----------
+Add buttons to clear board and start over.
+Add a way for players to enter their names.
