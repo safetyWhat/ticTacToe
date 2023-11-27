@@ -41,4 +41,4 @@ Stop play on win or tie. I was able to use an if statement to stop cycling the p
 
 -----------
 Add buttons to clear board and start over.
-Add a way for players to enter their names.
+Add a way for players to enter their names. Done!
